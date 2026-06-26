@@ -4,7 +4,10 @@ Cargo.lock
 .env
 .DS_Store
 *.db
+*.db-shm
+*.db-wal
 *.sqlite
 *.sqlite3
+search_index/
 .idea/
 .vscode/

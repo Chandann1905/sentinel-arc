@@ -1,104 +1,99 @@
 # Sentinel Arc
 
-Sentinel Arc is an embedded state management and event-sourcing foundation built in Rust. It is designed to act as the memory persistence and transaction boundary layer for autonomous agents and complex rule-governed systems.
+[![CI](https://github.com/Chandann1905/sentinel-arc/actions/workflows/ci.yml/badge.svg)](https://github.com/Chandann1905/sentinel-arc/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-By strictly separating pure domain representations from storage implementations, Sentinel Arc ensures memory-safe operations, temporal event auditing, and rigorous transaction isolation.
+**Sentinel Arc** is an embedded, transactional state-management and event-sourcing engine built in Rust. 
 
-## Architecture Overview
+## The Problem
+Autonomous agents and complex AI applications struggle with maintaining durable, memory-safe temporal state (what happened, when, and why) across sessions.
 
-The system strictly adheres to **Domain Driven Design (DDD)** principles and the **Repository Pattern**. Operations never bypass the Engine layer, ensuring that all state changes emit synchronous temporal events.
+## The Solution
+Sentinel Arc provides an ACID-compliant memory graph. By strictly separating pure domain representations from SQLite storage implementations, it ensures memory-safe operations, absolute temporal event auditing, and rigorous transaction isolation. Operations never bypass the Engine layer, ensuring all state changes emit synchronous, append-only temporal events.
 
-```mermaid
-graph TD
-    subgraph Client Application
-        A[External Services / Agents]
-    end
+---
 
-    subgraph Knowledge Engine Facade
-        KE[KnowledgeEngine]
-    end
+## 🚀 Quick Start (5 Minutes)
 
-    subgraph Internal Engines
-        NE[NodeEngine]
-        RE[RelationshipEngine]
-        EE[EventEngine]
-        RUE[RuleEngine]
-    end
+We've designed Sentinel Arc to be frictionless to build and test.
 
-    subgraph Repository Layer
-        KR[KnowledgeRepository]
-    end
+### 1. Install Prerequisites
+You will need **Rust (1.70.0+)** and **Cargo**.
+* **macOS / Linux / WSL**: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
+* **Windows**: Download `rustup-init.exe` from [rustup.rs](https://rustup.rs).
 
-    subgraph SQLite Storage
-        DB[(Database)]
-    end
+*(Sentinel Arc strictly uses bundled SQLite (`libsqlite3-sys`), so you do NOT need a local SQL server running).*
 
-    A -->|API Calls| KE
-    KE -->|Delegates| NE
-    KE -->|Delegates| RE
-    KE -->|Delegates| EE
-    KE -->|Delegates| RUE
-
-    NE -->|Transactions| KR
-    RE -->|Transactions| KR
-    EE -->|Transactions| KR
-    RUE -->|Transactions| KR
-
-    KR -->|SQL Queries| DB
-```
-
-### Design Principles
-
-1. **Transaction Isolation**: All side effects are encapsulated within atomic database transactions. Creating a node or modifying a relationship strictly appends an audit event within the same transaction.
-2. **Encapsulation**: Storage implementation details (`sqlx` queries, migration logic) are hidden behind the `KnowledgeRepository` trait. Internal engines are restricted to `pub(crate)` visibility.
-3. **Event Sourcing**: The `EventStore` provides an immutable append-only ledger for all operations, serving as the system's absolute temporal truth.
-4. **No External Dependencies in Core**: The `sentinel-arc-core` crate depends solely on `serde`, `uuid`, and `chrono`, ensuring domain models can be shared across web, mobile, and WASM clients.
-
-## Workspace Layout
-
-The repository is structured as a Cargo workspace:
-
-- **`crates/core`**: (`sentinel-arc-core`) Pure domain models (`Node`, `Event`, `Relationship`, `Rule`) and trait definitions. Zero database logic.
-- **`crates/knowledge`**: (`sentinel-arc-knowledge`) The operational core, encompassing the `KnowledgeEngine` facade, `NodeEngine`, `EventEngine`, `RuleEngine`, and `RelationshipEngine`. Integrates with the `KnowledgeRepository` for SQLite persistence.
-
-## Quick Start
-
-### Prerequisites
-- [Rust](https://www.rust-lang.org/tools/install) (1.70.0 or later)
-
-### Build & Test
-
+### 2. Clone the Repository
 ```bash
-# Clone the repository
 git clone https://github.com/Chandann1905/sentinel-arc.git
 cd sentinel-arc
-
-# Build the workspace
-cargo build --release
-
-# Run the unified test suite
-cargo test --workspace
 ```
 
-## Documentation
+### 3. Bootstrap and Verify
+We provide a setup script that will check your toolchain, compile the project, and run the test suite in memory.
 
-- **Architecture Details**: Deep dives into transactions, repository implementations, and system interactions can be found in the `docs/architecture` and `docs/adr` folders.
-- **API Reference**: Run `cargo doc --open --no-deps` to explore the comprehensive Rustdoc API reference.
+**Windows (PowerShell):**
+```powershell
+.\scripts\setup.ps1
+```
 
-## Testing Strategy
+**macOS / Linux:**
+```bash
+./scripts/setup.sh
+```
 
-Sentinel Arc uses automated in-memory SQLite instances for testing. Every engine function is tested in isolation against the repository layer, guaranteeing thread-safe, concurrent test execution without database locking overhead.
+*(Alternatively, run `cargo build` and `cargo test` manually).*
 
-## Roadmap
+---
 
-1. **HTTP Server API**: Expose the `KnowledgeEngine` via an asynchronous HTTP/REST service.
-2. **Context Assembly**: Provide automated projection of surrounding graph contexts (Brain Cards) to supply agents with bounded awareness.
-3. **Plugin Engine**: Implement a WASM-based extension architecture for runtime behavior modification.
+## 🏗️ Architecture & Workspace Layout
 
-## Contributing
+Sentinel Arc employs **Domain Driven Design (DDD)** and is structured as a Cargo workspace:
 
-We welcome community contributions. Please thoroughly review the [Contributing Guide](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) prior to submitting a Pull Request.
+* **`crates/core`** (`sentinel-arc-core`): Pure domain models (`Node`, `Relationship`, `Event`, `Rule`). Zero database dependencies.
+* **`crates/knowledge`** (`sentinel-arc-knowledge`): The operational `KnowledgeEngine` facade. Coordinates transactions across the SQLite `KnowledgeRepository`.
+* **`crates/search`** (`sentinel-arc-search`): Tantivy-backed full text index. (Merged into core engines)
+* **`crates/graph`** (`sentinel-arc-graph`): Petgraph-backed topology projection and impact analysis.
+* **`crates/scanner`** (`sentinel-arc-scanner`): Tree-sitter file system parser.
+* **`crates/context`** (`sentinel-arc-context`): LLM intent resolution and package generation.
+* **`crates/validation`** (`sentinel-arc-validation`): Project health validation and drift detection.
+* **`examples/`**: Minimal runnable code demonstrating engine integrations.
+* **`docs/`**: Comprehensive developer guides and architectural decisions (ADRs).
 
-## License
+```mermaid
+graph LR
+    A[Consumer App] -->|Calls| KE[Knowledge Engine Facade]
+    KE --> NE[Internal Engines: Node, Event, Rule, Relationship]
+    NE -->|Transactions| KR[Knowledge Repository]
+    KR --> DB[(SQLite Database)]
+```
 
-This software is released under the [MIT License](LICENSE).
+## 📚 Developer Guides
+
+New to the project? Start here:
+- [Environment Setup](docs/development/setup.md)
+- [Building & Compiling](docs/development/building.md)
+- [Testing Strategies](docs/development/testing.md)
+- [Debugging Guide](docs/development/debugging.md)
+- [Repository Layout](docs/development/repository-layout.md)
+- [Architecture Deep Dive](docs/development/architecture.md)
+- [Troubleshooting & FAQ](docs/development/troubleshooting.md)
+
+## 💻 CLI Roadmap
+
+A dedicated command-line interface (`sentinel-cli`) is planned for upcoming releases. Expected capabilities:
+- `cargo run init`: Bootstrap a new SQLite Arc database.
+- `cargo run doctor`: Validate integrity of historical events against the current graph state.
+- `cargo run validate`: Run the rule engine against the active dataset.
+
+## 🤝 Contributing
+
+We welcome community contributions!
+1. Read our [Contributing Guide](CONTRIBUTING.md).
+2. Review our [Code of Conduct](CODE_OF_CONDUCT.md).
+3. Ensure all tests and `clippy` checks pass via `cargo test` and `cargo clippy`.
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE).

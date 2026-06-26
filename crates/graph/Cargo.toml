@@ -1,6 +1,5 @@
 [package]
-name = "sentinel-arc-core"
-description = "Core contracts, types, traits, and errors for Sentinel Arc"
+name = "sentinel-arc-graph"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
@@ -8,12 +7,16 @@ rust-version.workspace = true
 repository.workspace = true
 homepage.workspace = true
 documentation.workspace = true
+description.workspace = true
 keywords.workspace = true
 categories.workspace = true
 
 [dependencies]
-serde = { workspace = true }
-serde_json = { workspace = true }
-uuid = { workspace = true }
-chrono = { workspace = true }
-thiserror = { workspace = true }
+sentinel-arc-core.workspace = true
+sentinel-arc-knowledge.workspace = true
+petgraph.workspace = true
+tokio.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+tempfile = "3.10"

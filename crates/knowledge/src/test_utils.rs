@@ -1,5 +1,5 @@
 #[cfg(test)]
-pub mod test_helpers {
+pub(crate) mod test_helpers {
     use crate::database::Database;
     use crate::engine::event_engine::EventEngine;
     use crate::engine::node_engine::NodeEngine;

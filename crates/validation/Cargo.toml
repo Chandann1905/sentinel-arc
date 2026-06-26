@@ -1,0 +1,28 @@
+[package]
+name = "sentinel-arc-validation"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+description.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+sentinel-arc-core.workspace = true
+sentinel-arc-knowledge.workspace = true
+sentinel-arc-graph.workspace = true
+sentinel-arc-scanner.workspace = true
+
+serde.workspace = true
+serde_json.workspace = true
+tokio.workspace = true
+thiserror.workspace = true
+uuid.workspace = true
+async-trait = "0.1"
+
+[dev-dependencies]
+tempfile = "3.10"

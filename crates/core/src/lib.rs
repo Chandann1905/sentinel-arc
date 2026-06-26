@@ -30,6 +30,7 @@ pub mod domain {
     pub mod node;
     pub mod relationship;
     pub mod rule;
+    pub mod search;
 }
 
 // ── Root ──
@@ -43,6 +44,7 @@ pub use domain::event::Event;
 pub use domain::node::{Node, NodeStatus};
 pub use domain::relationship::Relationship;
 pub use domain::rule::{Rule, RuleCategory, RuleSeverity};
+pub use domain::search::{SearchEntityKind, SearchHit, SearchQuery, SearchResult};
 pub use error::{BrainError, BrainResult};
 pub use types::event_type::EventType;
 pub use types::ids::{EventId, NodeId, RelationshipId, RuleId};

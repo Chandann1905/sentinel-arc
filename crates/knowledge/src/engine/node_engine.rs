@@ -163,10 +163,7 @@ mod tests {
 
         let (archived, event) = ne.archive_node(&node.id).await.unwrap();
         assert_eq!(archived.status, NodeStatus::Archived);
-        assert_eq!(
-            event.event_type,
-            sentinel_arc_core::EventType::NodeArchived
-        );
+        assert_eq!(event.event_type, sentinel_arc_core::EventType::NodeArchived);
 
         let history = ee.get_entity_history(node.id.as_str()).await.unwrap();
         assert_eq!(history.len(), 2); // Created + Archived

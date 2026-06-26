@@ -1,0 +1,28 @@
+[package]
+name = "sentinel-arc-scanner"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+description.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+sentinel-arc-core.workspace = true
+sentinel-arc-knowledge.workspace = true
+
+ignore.workspace = true
+tree-sitter.workspace = true
+tree-sitter-rust.workspace = true
+sha2.workspace = true
+tokio.workspace = true
+thiserror.workspace = true
+uuid.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+tempfile = "3.10"

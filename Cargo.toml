@@ -1,9 +1,9 @@
 [workspace]
 resolver = "2"
 
-members = [
-    "crates/core",
-    "crates/knowledge",
+members = ["crates/context",
+    "crates/core", "crates/graph",
+    "crates/knowledge", "crates/scanner", "crates/validation",
 ]
 
 [workspace.package]
@@ -11,6 +11,12 @@ version = "0.1.0"
 edition = "2024"
 license = "MIT"
 rust-version = "1.85"
+repository = "https://github.com/Chandann1905/sentinel-arc"
+homepage = "https://github.com/Chandann1905/sentinel-arc"
+documentation = "https://github.com/Chandann1905/sentinel-arc"
+description = "An embedded, transactional state-management and event-sourcing engine built in Rust."
+keywords = ["state-management", "event-sourcing", "sqlite", "knowledge-graph", "agent"]
+categories = ["database", "data-structures"]
 
 [workspace.dependencies]
 # Serialization
@@ -29,5 +35,22 @@ tokio = { version = "1", features = ["full"] }
 # Error handling
 thiserror = "2"
 
+# Full-text search
+tantivy = "0.22"
+
 # Internal crates
 sentinel-arc-core = { path = "crates/core" }
+sentinel-arc-knowledge = { path = "crates/knowledge" }
+sentinel-arc-graph = { path = "crates/graph" }
+sentinel-arc-context = { path = "crates/context" }
+sentinel-arc-scanner = { path = "crates/scanner" }
+sentinel-arc-validation = { path = "crates/validation" }
+
+# Graph
+petgraph = "0.6"
+
+# Scanner & AST
+ignore = "0.4"
+tree-sitter = "0.22"
+tree-sitter-rust = "0.21"
+sha2 = "0.10"

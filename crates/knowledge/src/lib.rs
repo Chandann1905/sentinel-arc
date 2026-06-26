@@ -2,7 +2,8 @@
 //!
 //! This crate implements the Knowledge Layer — the source of truth for
 //! all project knowledge. It provides SQLite-backed storage for the
-//! four core entities: Nodes, Relationships, Events, and Rules.
+//! four core entities: Nodes, Relationships, Events, and Rules,
+//! plus Tantivy-backed full-text search.
 //!
 //! ## Architecture
 //!
@@ -13,9 +14,10 @@
 //! - `SqliteEventStore` — implements `EventStore` trait (append-only)
 //! - `SqliteRuleStore` — implements `RuleStore` trait
 //!
-//! ### Engine Layer (Milestone 2)
+//! ### Engine Layer (Milestone 2–5)
 //! - `EventEngine` — orchestrates event emission for entity mutations
 //! - `NodeEngine` — high-level node lifecycle management with auto-versioning
+//! - `SearchEngine` — full-text search via Tantivy (Milestone 5)
 
 // ── Storage modules ──
 pub mod database;
@@ -35,9 +37,11 @@ pub mod engine {
     pub(crate) mod node_engine;
     pub(crate) mod relationship_engine;
     pub(crate) mod rule_engine;
+    pub(crate) mod search_engine;
 }
 
 pub(crate) mod repository;
+pub(crate) mod search_repository;
 
 #[cfg(test)]
 pub mod test_utils;

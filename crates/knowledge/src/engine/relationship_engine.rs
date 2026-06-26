@@ -1,9 +1,7 @@
 use crate::repository::KnowledgeRepository;
 use sentinel_arc_core::error::{BrainError, BrainResult};
 use sentinel_arc_core::traits::{NodeStore, RelationshipStore};
-use sentinel_arc_core::{
-    Event, EventType, NodeId, Relationship, RelationshipId, RelationshipType,
-};
+use sentinel_arc_core::{Event, EventType, NodeId, Relationship, RelationshipId, RelationshipType};
 
 #[derive(Debug, Clone)]
 pub(crate) struct RelationshipEngine {
@@ -95,6 +93,11 @@ impl RelationshipEngine {
 
     pub async fn find_outgoing(&self, node_id: &NodeId) -> BrainResult<Vec<Relationship>> {
         self.repo.relationship_store().find_by_source(node_id).await
+    }
+
+    /// Retrieve all relationships in the repository.
+    pub async fn list_all_relationships(&self) -> BrainResult<Vec<Relationship>> {
+        self.repo.relationship_store().list_all().await
     }
 }
 
