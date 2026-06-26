@@ -1,0 +1,4 @@
+# These owners will be the default reviewers for pull requests
+# assigned to the paths they own.
+
+*       @Chandann1905
