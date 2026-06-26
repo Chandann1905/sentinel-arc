@@ -1,4 +1,4 @@
-//! Core traits defining the storage interfaces for Project Brain.
+//! Core traits defining the storage interfaces for Sentinel Arc.
 //!
 //! These traits define the contracts that storage implementations must
 //! fulfill. The `knowledge` crate provides the SQLite implementation.

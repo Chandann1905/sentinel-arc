@@ -5,11 +5,11 @@
 use chrono::{DateTime, TimeZone, Utc};
 use sqlx::SqlitePool;
 
-use project_brain_core::Event;
-use project_brain_core::EventId;
-use project_brain_core::EventType;
-use project_brain_core::error::{BrainError, BrainResult};
-use project_brain_core::traits::EventStore;
+use sentinel_arc_core::Event;
+use sentinel_arc_core::EventId;
+use sentinel_arc_core::EventType;
+use sentinel_arc_core::error::{BrainError, BrainResult};
+use sentinel_arc_core::traits::EventStore;
 
 /// SQLite-backed event storage. Append-only by design.
 #[derive(Debug, Clone)]

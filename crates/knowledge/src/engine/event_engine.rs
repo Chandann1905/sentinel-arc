@@ -1,7 +1,7 @@
 use crate::repository::KnowledgeRepository;
-use project_brain_core::error::BrainResult;
-use project_brain_core::traits::EventStore;
-use project_brain_core::{Event, EventId, EventType};
+use sentinel_arc_core::error::BrainResult;
+use sentinel_arc_core::traits::EventStore;
+use sentinel_arc_core::{Event, EventId, EventType};
 
 #[derive(Debug, Clone)]
 pub(crate) struct EventEngine {
@@ -35,7 +35,7 @@ impl EventEngine {
 mod missing_event_tests {
 
     use crate::test_utils::test_helpers::setup_engines;
-    use project_brain_core::{EventType, Node, NodeType};
+    use sentinel_arc_core::{EventType, Node, NodeType};
 
     #[tokio::test]
     async fn test_get_event() {

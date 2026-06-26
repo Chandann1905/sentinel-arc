@@ -1,4 +1,4 @@
-//! All relationship types supported by Project Brain.
+//! All relationship types supported by Sentinel Arc.
 //!
 //! Derived from DOMAIN_MODEL.md and PRD. This enum is frozen — new variants
 //! require an Architecture Change Request.

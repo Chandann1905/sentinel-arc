@@ -3,12 +3,12 @@
 use chrono::{DateTime, TimeZone, Utc};
 use sqlx::SqlitePool;
 
-use project_brain_core::NodeId;
-use project_brain_core::NodeType;
-use project_brain_core::error::{BrainError, BrainResult};
-use project_brain_core::traits::NodeStore;
-use project_brain_core::{Confidence, Source};
-use project_brain_core::{Node, NodeStatus};
+use sentinel_arc_core::NodeId;
+use sentinel_arc_core::NodeType;
+use sentinel_arc_core::error::{BrainError, BrainResult};
+use sentinel_arc_core::traits::NodeStore;
+use sentinel_arc_core::{Confidence, Source};
+use sentinel_arc_core::{Node, NodeStatus};
 
 /// SQLite-backed node storage.
 #[derive(Debug, Clone)]

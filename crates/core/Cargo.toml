@@ -1,6 +1,6 @@
 [package]
-name = "project-brain-core"
-description = "Core contracts, types, traits, and errors for Project Brain"
+name = "sentinel-arc-core"
+description = "Core contracts, types, traits, and errors for Sentinel Arc"
 version.workspace = true
 edition.workspace = true
 license.workspace = true

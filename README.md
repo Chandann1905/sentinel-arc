@@ -1,4 +1,4 @@
-# Sentinel Arc — Project Brain
+# Sentinel Arc — Sentinel Arc
 
 Sentinel Arc is a local-first AI knowledge graph and project memory platform that gives coding agents architectural context, deterministic memory, and impact analysis for large codebases.
 
@@ -24,7 +24,7 @@ Sentinel Arc employs a strictly layered architecture using **Domain Driven Desig
 ```bash
 # Clone the repository
 git clone https://github.com/Chandann1905/sentinel-arc.git
-cd sentinel-arc/project-brain
+cd sentinel-arc/sentinel-arc
 
 # Build the project
 cargo build

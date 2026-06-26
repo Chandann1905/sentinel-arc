@@ -1,6 +1,6 @@
-use project_brain_core::domain::brain_card::HistoryEntry;
-use project_brain_core::error::BrainResult;
-use project_brain_core::{
+use sentinel_arc_core::domain::brain_card::HistoryEntry;
+use sentinel_arc_core::error::BrainResult;
+use sentinel_arc_core::{
     BrainCard, Event, EventId, Node, NodeId, Relationship, RelationshipId, RelationshipType, Rule,
     RuleId,
 };
@@ -11,7 +11,7 @@ use crate::engine::relationship_engine::RelationshipEngine;
 use crate::engine::rule_engine::RuleEngine;
 use crate::repository::KnowledgeRepository;
 
-/// The central facade for all Project Brain Knowledge operations.
+/// The central facade for all Sentinel Arc Knowledge operations.
 ///
 /// Wraps individual engines to provide a single, unified API for upstream consumers
 /// (e.g., UI, MCP servers, and Context Engines).
@@ -39,6 +39,7 @@ impl KnowledgeEngine {
     }
 
     /// Initialize internally with a given repository.
+    #[allow(dead_code)]
     pub(crate) fn new_internal(repo: KnowledgeRepository) -> Self {
         Self {
             node_engine: NodeEngine::new(repo.clone()),
@@ -163,7 +164,7 @@ impl KnowledgeEngine {
 #[cfg(test)]
 mod missing_knowledge_tests {
     use crate::test_utils::test_helpers::setup_knowledge_engine;
-    use project_brain_core::{Node, NodeType};
+    use sentinel_arc_core::{Node, NodeType};
 
     #[tokio::test]
     async fn test_create_node() {
@@ -189,7 +190,7 @@ mod missing_knowledge_tests {
         let n = Node::new(NodeType::Feature, "T");
         let (node, _) = ke.create_node(n).await.unwrap();
         let (archived, _) = ke.archive_node(&node.id).await.unwrap();
-        assert_eq!(archived.status, project_brain_core::NodeStatus::Archived);
+        assert_eq!(archived.status, sentinel_arc_core::NodeStatus::Archived);
     }
 
     #[tokio::test]
@@ -242,10 +243,10 @@ mod missing_knowledge_tests {
         let n2 = Node::new(NodeType::Feature, "N2");
         let (n1, _) = ke.create_node(n1).await.unwrap();
         let (n2, _) = ke.create_node(n2).await.unwrap();
-        let rel = project_brain_core::Relationship::new(
+        let rel = sentinel_arc_core::Relationship::new(
             n1.id,
             n2.id,
-            project_brain_core::RelationshipType::DependsOn,
+            sentinel_arc_core::RelationshipType::DependsOn,
         );
         let res = ke.create_relationship(rel).await;
         assert!(res.is_ok());

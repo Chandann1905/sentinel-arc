@@ -1,4 +1,4 @@
-//! The Node entity — the primary object of Project Brain.
+//! The Node entity — the primary object of Sentinel Arc.
 //!
 //! A Node represents any important entity inside the system: projects,
 //! features, files, functions, decisions, bugs, tasks, etc.
@@ -36,7 +36,7 @@ impl std::fmt::Display for NodeStatus {
     }
 }
 
-/// A knowledge node — the primary object of Project Brain.
+/// A knowledge node — the primary object of Sentinel Arc.
 ///
 /// Every important entity in the system is a Node. The universal schema
 /// is defined in DOMAIN_MODEL.md.

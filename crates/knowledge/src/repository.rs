@@ -2,8 +2,8 @@
 
 use sqlx::SqlitePool;
 
-use project_brain_core::error::{BrainError, BrainResult};
-use project_brain_core::{Event, Node, NodeId, Relationship, RelationshipId};
+use sentinel_arc_core::error::{BrainError, BrainResult};
+use sentinel_arc_core::{Event, Node, NodeId, Relationship, RelationshipId};
 
 use crate::store::event_store::SqliteEventStore;
 use crate::store::node_store::SqliteNodeStore;
@@ -85,6 +85,7 @@ impl KnowledgeRepository {
     }
 
     /// Atomically delete a node and append its corresponding event.
+    #[allow(dead_code)]
     pub async fn delete_node_with_event(&self, id: &NodeId, event: &Event) -> BrainResult<()> {
         let mut tx = self
             .pool

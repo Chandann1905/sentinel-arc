@@ -1,6 +1,6 @@
-use project_brain_core::error::BrainResult;
-use project_brain_core::traits::RuleStore;
-use project_brain_core::{Rule, RuleCategory, RuleId};
+use sentinel_arc_core::error::BrainResult;
+use sentinel_arc_core::traits::RuleStore;
+use sentinel_arc_core::{Rule, RuleCategory, RuleId};
 
 use crate::repository::KnowledgeRepository;
 
@@ -57,7 +57,7 @@ mod tests {
 #[cfg(test)]
 mod missing_rule_tests {
     use crate::test_utils::test_helpers::setup_engines;
-    use project_brain_core::RuleCategory;
+    use sentinel_arc_core::RuleCategory;
 
     #[tokio::test]
     async fn test_list_rules() {

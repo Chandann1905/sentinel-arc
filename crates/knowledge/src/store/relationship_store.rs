@@ -3,12 +3,12 @@
 use chrono::{DateTime, TimeZone, Utc};
 use sqlx::SqlitePool;
 
-use project_brain_core::Confidence;
-use project_brain_core::Relationship;
-use project_brain_core::RelationshipType;
-use project_brain_core::error::{BrainError, BrainResult};
-use project_brain_core::traits::RelationshipStore;
-use project_brain_core::{NodeId, RelationshipId};
+use sentinel_arc_core::Confidence;
+use sentinel_arc_core::Relationship;
+use sentinel_arc_core::RelationshipType;
+use sentinel_arc_core::error::{BrainError, BrainResult};
+use sentinel_arc_core::traits::RelationshipStore;
+use sentinel_arc_core::{NodeId, RelationshipId};
 
 /// SQLite-backed relationship storage.
 #[derive(Debug, Clone)]
@@ -247,9 +247,9 @@ mod tests {
     use super::*;
     use crate::database::Database;
     use crate::store::node_store::SqliteNodeStore;
-    use project_brain_core::Node;
-    use project_brain_core::NodeType;
-    use project_brain_core::traits::NodeStore;
+    use sentinel_arc_core::Node;
+    use sentinel_arc_core::NodeType;
+    use sentinel_arc_core::traits::NodeStore;
     use tempfile::TempDir;
 
     async fn setup() -> (TempDir, SqliteNodeStore, SqliteRelationshipStore) {

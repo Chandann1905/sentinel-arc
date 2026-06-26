@@ -1,7 +1,7 @@
 use crate::repository::KnowledgeRepository;
-use project_brain_core::error::{BrainError, BrainResult};
-use project_brain_core::traits::{NodeStore, RelationshipStore};
-use project_brain_core::{
+use sentinel_arc_core::error::{BrainError, BrainResult};
+use sentinel_arc_core::traits::{NodeStore, RelationshipStore};
+use sentinel_arc_core::{
     Event, EventType, NodeId, Relationship, RelationshipId, RelationshipType,
 };
 
@@ -102,8 +102,8 @@ impl RelationshipEngine {
 mod tests {
     use super::*;
     use crate::test_utils::test_helpers::setup_engines;
-    use project_brain_core::Node;
-    use project_brain_core::NodeType;
+    use sentinel_arc_core::Node;
+    use sentinel_arc_core::NodeType;
 
     #[tokio::test]
     async fn create_valid_relationship() {
@@ -120,7 +120,7 @@ mod tests {
         assert_eq!(created_rel.target_node, n2.id);
         assert_eq!(
             event.event_type,
-            project_brain_core::EventType::RelationshipAdded
+            sentinel_arc_core::EventType::RelationshipAdded
         );
 
         let history = ee
@@ -135,11 +135,11 @@ mod tests {
 mod missing_tests {
 
     use crate::test_utils::test_helpers::setup_engines;
-    use project_brain_core::Node;
-    use project_brain_core::NodeId;
-    use project_brain_core::NodeType;
-    use project_brain_core::Relationship;
-    use project_brain_core::RelationshipType;
+    use sentinel_arc_core::Node;
+    use sentinel_arc_core::NodeId;
+    use sentinel_arc_core::NodeType;
+    use sentinel_arc_core::Relationship;
+    use sentinel_arc_core::RelationshipType;
 
     #[tokio::test]
     async fn create_missing_source_node() {
@@ -223,7 +223,7 @@ mod missing_tests {
         let event = re.delete_relationship(&created.id).await.unwrap();
         assert_eq!(
             event.event_type,
-            project_brain_core::EventType::RelationshipRemoved
+            sentinel_arc_core::EventType::RelationshipRemoved
         );
 
         let fetched = re.get_relationship(&created.id).await;

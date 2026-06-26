@@ -30,4 +30,4 @@ tokio = { version = "1", features = ["full"] }
 thiserror = "2"
 
 # Internal crates
-project-brain-core = { path = "crates/core" }
+sentinel-arc-core = { path = "crates/core" }

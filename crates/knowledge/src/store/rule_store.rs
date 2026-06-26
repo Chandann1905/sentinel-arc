@@ -2,10 +2,10 @@
 
 use sqlx::SqlitePool;
 
-use project_brain_core::RuleId;
-use project_brain_core::error::{BrainError, BrainResult};
-use project_brain_core::traits::RuleStore;
-use project_brain_core::{Rule, RuleCategory, RuleSeverity};
+use sentinel_arc_core::RuleId;
+use sentinel_arc_core::error::{BrainError, BrainResult};
+use sentinel_arc_core::traits::RuleStore;
+use sentinel_arc_core::{Rule, RuleCategory, RuleSeverity};
 
 /// SQLite-backed rule storage.
 #[derive(Debug, Clone)]

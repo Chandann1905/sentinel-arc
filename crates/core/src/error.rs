@@ -1,11 +1,11 @@
-//! Core error types for Project Brain.
+//! Core error types for Sentinel Arc.
 //!
 //! All crates should map their internal errors to `BrainError`
 //! for a consistent error interface.
 
 use thiserror::Error;
 
-/// The unified error type for Project Brain operations.
+/// The unified error type for Sentinel Arc operations.
 #[derive(Debug, Error)]
 pub enum BrainError {
     /// The requested entity was not found.

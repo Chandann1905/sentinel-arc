@@ -7,9 +7,9 @@ use sqlx::sqlite::{SqliteConnectOptions, SqlitePool, SqlitePoolOptions};
 use std::path::{Path, PathBuf};
 use std::str::FromStr;
 
-use project_brain_core::BrainError;
+use sentinel_arc_core::BrainError;
 
-/// The main database handle for Project Brain.
+/// The main database handle for Sentinel Arc.
 ///
 /// Wraps a SQLx connection pool to `.brain/brain.db`.
 #[derive(Debug, Clone)]

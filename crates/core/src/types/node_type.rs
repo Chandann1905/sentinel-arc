@@ -1,4 +1,4 @@
-//! All node types supported by Project Brain.
+//! All node types supported by Sentinel Arc.
 //!
 //! Derived from DOMAIN_MODEL.md. This enum is frozen — new variants
 //! require an Architecture Change Request.

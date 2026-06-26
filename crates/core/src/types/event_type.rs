@@ -1,4 +1,4 @@
-//! All event types supported by Project Brain.
+//! All event types supported by Sentinel Arc.
 //!
 //! Derived from DOMAIN_MODEL.md. Events are immutable records of every
 //! meaningful change — they are never edited or deleted.

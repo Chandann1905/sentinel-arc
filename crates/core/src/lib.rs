@@ -1,9 +1,9 @@
-//! # Project Brain Core
+//! # Sentinel Arc Core
 //!
-//! Core contracts, types, traits, and error definitions for Project Brain.
+//! Core contracts, types, traits, and error definitions for Sentinel Arc.
 //!
 //! This crate contains **no business logic**. It defines the shared vocabulary
-//! that all other crates in the Project Brain workspace depend on.
+//! that all other crates in the Sentinel Arc workspace depend on.
 //!
 //! ## Domain Model
 //!

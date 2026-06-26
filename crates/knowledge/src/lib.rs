@@ -1,4 +1,4 @@
-//! # Project Brain Knowledge Layer
+//! # Sentinel Arc Knowledge Layer
 //!
 //! This crate implements the Knowledge Layer — the source of truth for
 //! all project knowledge. It provides SQLite-backed storage for the

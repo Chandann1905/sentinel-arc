@@ -1,8 +1,8 @@
 use crate::repository::KnowledgeRepository;
 use chrono::Utc;
-use project_brain_core::error::{BrainError, BrainResult};
-use project_brain_core::traits::NodeStore;
-use project_brain_core::{Event, EventType, Node, NodeId, NodeStatus, NodeType};
+use sentinel_arc_core::error::{BrainError, BrainResult};
+use sentinel_arc_core::traits::NodeStore;
+use sentinel_arc_core::{Event, EventType, Node, NodeId, NodeStatus, NodeType};
 
 #[derive(Debug, Clone)]
 pub(crate) struct NodeEngine {
@@ -101,8 +101,8 @@ impl NodeEngine {
 mod tests {
     use super::*;
     use crate::test_utils::test_helpers::setup_engines;
-    use project_brain_core::Node;
-    use project_brain_core::NodeType;
+    use sentinel_arc_core::Node;
+    use sentinel_arc_core::NodeType;
 
     #[tokio::test]
     async fn create_valid_node() {
@@ -111,7 +111,7 @@ mod tests {
         let (node, event) = ne.create_node(n).await.unwrap();
 
         assert_eq!(node.version, 1);
-        assert_eq!(event.event_type, project_brain_core::EventType::NodeCreated);
+        assert_eq!(event.event_type, sentinel_arc_core::EventType::NodeCreated);
 
         let history = ee.get_entity_history(node.id.as_str()).await.unwrap();
         assert_eq!(history.len(), 1);
@@ -144,7 +144,7 @@ mod tests {
 
         assert_eq!(updated.version, 2);
         assert_eq!(updated.title, "Updated");
-        assert_eq!(event.event_type, project_brain_core::EventType::NodeUpdated);
+        assert_eq!(event.event_type, sentinel_arc_core::EventType::NodeUpdated);
     }
 
     #[tokio::test]
@@ -165,7 +165,7 @@ mod tests {
         assert_eq!(archived.status, NodeStatus::Archived);
         assert_eq!(
             event.event_type,
-            project_brain_core::EventType::NodeArchived
+            sentinel_arc_core::EventType::NodeArchived
         );
 
         let history = ee.get_entity_history(node.id.as_str()).await.unwrap();
