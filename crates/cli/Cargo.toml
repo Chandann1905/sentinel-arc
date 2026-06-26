@@ -1,0 +1,39 @@
+[package]
+name = "sentinel-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+documentation.workspace = true
+description.workspace = true
+keywords.workspace = true
+categories.workspace = true
+
+[dependencies]
+sentinel-arc-core.workspace = true
+sentinel-arc-knowledge.workspace = true
+sentinel-arc-graph.workspace = true
+sentinel-arc-scanner.workspace = true
+sentinel-arc-context.workspace = true
+sentinel-arc-validation.workspace = true
+
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+anyhow = "1.0"
+
+clap = { version = "4.5", features = ["derive", "env"] }
+clap_complete = "4.5"
+indicatif = "0.17"
+console = "0.15"
+dialoguer = "0.11"
+comfy-table = "7.1"
+async-recursion = "1.1"
+petgraph.workspace = true
+
+[dev-dependencies]
+assert_cmd = "2.0"
+predicates = "3.1"
+tempfile = "3.10"

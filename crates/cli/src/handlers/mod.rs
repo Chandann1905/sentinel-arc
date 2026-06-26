@@ -1,0 +1,11 @@
+pub mod completion;
+pub mod context;
+pub mod doctor;
+pub mod graph;
+pub mod init;
+pub mod rebuild_index;
+pub mod scan;
+pub mod search;
+pub mod stats;
+pub mod validate;
+pub mod version;
