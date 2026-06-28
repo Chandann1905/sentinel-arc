@@ -20,7 +20,7 @@ thiserror = { workspace = true }
 tokio = { workspace = true }
 
 # SQLite via SQLx
-sqlx = { version = "0.8", features = ["runtime-tokio", "sqlite", "chrono", "derive"] }
+sqlx = { version = "0.9", features = ["runtime-tokio", "sqlite", "chrono", "derive"] }
 
 # Full-text search
 tantivy = { workspace = true }
