@@ -50,7 +50,7 @@ sentinel-arc-validation = { path = "crates/validation" }
 sentinel-cli = { path = "crates/cli" }
 
 # Graph
-petgraph = "0.6"
+petgraph = "0.8"
 
 # Scanner & AST
 ignore = "0.4"
