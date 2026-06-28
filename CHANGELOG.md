@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **CLI Examples**: Usage examples at `examples/cli/`.
 
 ### Changed
+- Updated `tree-sitter` dependency from `0.22` to `0.26`.
+- Updated `Cargo.lock` transitive dependencies.
 - Updated `README.md` with CLI installation instructions, Quick Start guide, and full command reference table.
 - Updated architecture diagram to include CLI and all engine layers.
 
