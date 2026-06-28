@@ -1,0 +1,79 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    name: Build Release (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact_name: sentinel-cli-linux-x86_64.tar.gz
+            bin_name: sentinel-cli
+          - os: windows-latest
+            artifact_name: sentinel-cli-windows-x86_64.zip
+            bin_name: sentinel-cli.exe
+          - os: macos-latest
+            artifact_name: sentinel-cli-macos-x86_64.tar.gz
+            bin_name: sentinel-cli
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: stable
+
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: "sentinel-arc-release"
+
+      - name: Build Release
+        run: cargo build --release --workspace
+
+      - name: Verify Execution
+        shell: bash
+        run: |
+          ./target/release/${{ matrix.bin_name }} --version
+          ./target/release/${{ matrix.bin_name }} --help
+
+      - name: Verify Version Consistency
+        shell: bash
+        run: |
+          TAG_VERSION=${GITHUB_REF_NAME#v}
+          BIN_VERSION=$(./target/release/${{ matrix.bin_name }} --version | awk '{print $2}')
+          if [ "$TAG_VERSION" != "$BIN_VERSION" ]; then
+            echo "Version mismatch! Tag: $TAG_VERSION, Binary: $BIN_VERSION"
+            exit 1
+          fi
+
+      - name: Compress Artifacts (Unix)
+        if: runner.os != 'Windows'
+        run: |
+          cd target/release
+          tar -czvf ../../${{ matrix.artifact_name }} ${{ matrix.bin_name }}
+
+      - name: Compress Artifacts (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          cd target/release
+          Compress-Archive -Path ${{ matrix.bin_name }} -DestinationPath ../../${{ matrix.artifact_name }}
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ matrix.artifact_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

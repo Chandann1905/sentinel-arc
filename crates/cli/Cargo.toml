@@ -16,8 +16,10 @@ sentinel-arc-core.workspace = true
 sentinel-arc-knowledge.workspace = true
 sentinel-arc-graph.workspace = true
 sentinel-arc-scanner.workspace = true
-sentinel-arc-context.workspace = true
-sentinel-arc-validation.workspace = true
+sentinel-arc-context = { workspace = true }
+sentinel-arc-validation = { workspace = true }
+sentinel-arc-timeline = { workspace = true }
+sentinel-arc-mcp = { path = "../mcp", version = "0.3.0" }
 
 tokio.workspace = true
 serde.workspace = true

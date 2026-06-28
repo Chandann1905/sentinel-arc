@@ -24,6 +24,10 @@ async fn main() -> anyhow::Result<()> {
             let code = handlers::validate::handle().await?;
             std::process::exit(code);
         }
+        Commands::Timeline { node_id, decisions } => {
+            handlers::timeline::handle(node_id.clone(), *decisions).await
+        }
+        Commands::Mcp => handlers::mcp::handle().await,
         Commands::RebuildIndex => handlers::rebuild_index::handle().await,
         Commands::Stats => handlers::stats::handle().await,
         Commands::Version => {

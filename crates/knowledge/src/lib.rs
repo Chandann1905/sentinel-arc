@@ -31,8 +31,10 @@ pub(crate) mod store {
 }
 
 // ── Engine modules ──
+/// The primary sub-engines handling business logic and coordination.
 pub mod engine {
     pub(crate) mod event_engine;
+    /// The public facade coordinating all state mutations and searches.
     pub mod knowledge_engine;
     pub(crate) mod node_engine;
     pub(crate) mod relationship_engine;

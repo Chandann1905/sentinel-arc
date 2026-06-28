@@ -60,6 +60,20 @@ pub enum Commands {
     /// Validate the project graph for drift and consistency
     Validate,
 
+    /// Generate a chronological timeline
+    Timeline {
+        /// Optional Node ID to filter by feature/module/roadmap
+        #[arg(short, long)]
+        node_id: Option<String>,
+
+        /// Show only Architecture Decision Records
+        #[arg(long, conflicts_with = "node_id")]
+        decisions: bool,
+    },
+
+    /// Run the Model Context Protocol (MCP) JSON-RPC server
+    Mcp,
+
     /// Rebuild the full text search index from the current database
     RebuildIndex,
 

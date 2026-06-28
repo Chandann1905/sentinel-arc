@@ -2,8 +2,8 @@ use sentinel_arc_core::domain::brain_card::HistoryEntry;
 use sentinel_arc_core::domain::search::{SearchQuery, SearchResult};
 use sentinel_arc_core::error::BrainResult;
 use sentinel_arc_core::{
-    BrainCard, Event, EventId, Node, NodeId, Relationship, RelationshipId, RelationshipType, Rule,
-    RuleId,
+    BrainCard, Event, EventId, EventType, Node, NodeId, Relationship, RelationshipId,
+    RelationshipType, Rule, RuleId,
 };
 
 use crate::engine::event_engine::EventEngine;
@@ -69,6 +69,7 @@ impl KnowledgeEngine {
 
     // ── Node Operations ─────────────────────────────────────────────
 
+    /// Creates a new Node, emitting an Event and updating the search index.
     pub async fn create_node(&self, node: Node) -> BrainResult<(Node, Event)> {
         let (node, event) = self.node_engine.create_node(node).await?;
         // Best-effort indexing — log and continue on failure.
@@ -87,6 +88,7 @@ impl KnowledgeEngine {
         Ok((node, event))
     }
 
+    /// Updates an existing Node, auto-incrementing its version and updating the search index.
     pub async fn update_node(&self, node: Node) -> BrainResult<(Node, Event)> {
         let (node, event) = self.node_engine.update_node(node).await?;
         if let Err(e) = self.search_engine.index_node(&node) {
@@ -104,6 +106,7 @@ impl KnowledgeEngine {
         Ok((node, event))
     }
 
+    /// Archives a Node by setting its status to Archived and updating the search index.
     pub async fn archive_node(&self, id: &NodeId) -> BrainResult<(Node, Event)> {
         let (node, event) = self.node_engine.archive_node(id).await?;
         if let Err(e) = self.search_engine.index_node(&node) {
@@ -121,16 +124,19 @@ impl KnowledgeEngine {
         Ok((node, event))
     }
 
+    /// Retrieves a Node by its ID.
     pub async fn get_node(&self, id: &NodeId) -> BrainResult<Node> {
         self.node_engine.get_node(id).await
     }
 
+    /// Lists all nodes currently in the repository.
     pub async fn list_nodes(&self) -> BrainResult<Vec<Node>> {
         self.node_engine.list_nodes().await
     }
 
     // ── Relationship Operations ─────────────────────────────────────
 
+    /// Creates a new Relationship between two nodes, emitting an Event and updating the search index.
     pub async fn create_relationship(
         &self,
         rel: Relationship,
@@ -151,6 +157,7 @@ impl KnowledgeEngine {
         Ok((rel, event))
     }
 
+    /// Deletes a Relationship by its ID, emitting a Deletion Event.
     pub async fn delete_relationship(&self, id: &RelationshipId) -> BrainResult<Event> {
         let event = self.rel_engine.delete_relationship(id).await?;
         if let Err(e) = self.search_engine.delete_by_id(id.as_str()) {
@@ -165,6 +172,7 @@ impl KnowledgeEngine {
         Ok(event)
     }
 
+    /// Retrieves a Relationship by its ID.
     pub async fn get_relationship(&self, id: &RelationshipId) -> BrainResult<Relationship> {
         self.rel_engine.get_relationship(id).await
     }
@@ -181,20 +189,34 @@ impl KnowledgeEngine {
 
     // ── Event Operations ────────────────────────────────────────────
 
+    /// Retrieves a specific Event by its ID.
     pub async fn get_event(&self, id: &EventId) -> BrainResult<Event> {
         self.event_engine.get_event(id).await
     }
 
+    /// Retrieves the chronological history of Events associated with a specific entity.
     pub async fn get_history(&self, entity_id: &str) -> BrainResult<Vec<Event>> {
         self.event_engine.get_entity_history(entity_id).await
     }
 
+    /// Retrieves all events matching a specific EventType.
+    pub async fn get_events_by_type(&self, event_type: EventType) -> BrainResult<Vec<Event>> {
+        self.event_engine.get_events_by_type(event_type).await
+    }
+
+    /// Retrieves the most recent events up to the specified limit.
+    pub async fn get_recent_events(&self, limit: usize) -> BrainResult<Vec<Event>> {
+        self.event_engine.get_recent_events(limit).await
+    }
+
     // ── Rule Operations ─────────────────────────────────────────────
 
+    /// Retrieves a Rule by its ID.
     pub async fn get_rule(&self, id: &RuleId) -> BrainResult<Rule> {
         self.rule_engine.get_rule(id).await
     }
 
+    /// Lists all enabled Rules in the repository.
     pub async fn list_rules(&self) -> BrainResult<Vec<Rule>> {
         self.rule_engine.list_enabled_rules().await
     }

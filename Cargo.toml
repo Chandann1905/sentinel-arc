@@ -3,7 +3,7 @@ resolver = "2"
 
 members = ["crates/cli","crates/context",
     "crates/core", "crates/graph",
-    "crates/knowledge", "crates/scanner", "crates/validation",
+    "crates/knowledge", "crates/mcp", "crates/scanner", "crates/timeline", "crates/validation",
 ]
 
 [workspace.package]
@@ -41,9 +41,11 @@ tantivy = "0.22"
 # Internal crates
 sentinel-arc-core = { path = "crates/core" }
 sentinel-arc-knowledge = { path = "crates/knowledge" }
+sentinel-arc-mcp = { path = "crates/mcp" }
 sentinel-arc-graph = { path = "crates/graph" }
 sentinel-arc-context = { path = "crates/context" }
 sentinel-arc-scanner = { path = "crates/scanner" }
+sentinel-arc-timeline = { path = "crates/timeline" }
 sentinel-arc-validation = { path = "crates/validation" }
 sentinel-cli = { path = "crates/cli" }
 
