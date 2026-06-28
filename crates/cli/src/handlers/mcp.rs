@@ -8,14 +8,14 @@ use std::sync::Arc;
 
 pub async fn handle() -> Result<()> {
     // Determine the .brain directory
-    let mut db_path = PathBuf::from(".brain");
+    let mut db_path = PathBuf::from(".sentinel");
     if !db_path.exists() {
         // Fall back to home directory global brain or just let initialization fail gracefully
         anyhow::bail!("Workspace not initialized. Please run 'sentinel init' first.");
     }
-    db_path.push("brain.db");
+    db_path.push("knowledge.db");
 
-    let db = Database::init_with_path(&db_path).await?;
+    let db = Database::init(&db_path).await?;
     let ke = Arc::new(KnowledgeEngine::new(&db));
     let te = Arc::new(TimelineEngine::new(ke.clone()));
 

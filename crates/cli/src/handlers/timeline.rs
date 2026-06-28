@@ -10,7 +10,8 @@ use sentinel_arc_knowledge::engine::knowledge_engine::KnowledgeEngine;
 use sentinel_arc_timeline::TimelineEngine;
 
 pub async fn handle(node_id_arg: Option<String>, decisions: bool) -> Result<()> {
-    let db = Database::init(Path::new("."))
+    let db_path = Path::new(".sentinel/knowledge.db");
+    let db = Database::init(db_path)
         .await
         .context("Failed to initialize database. Run `sentinel init`.")?;
     let ke = Arc::new(KnowledgeEngine::new(&db));

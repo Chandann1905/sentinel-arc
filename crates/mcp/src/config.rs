@@ -13,7 +13,7 @@ impl Default for McpConfig {
         Self {
             enable_write_tools: false,
             server_name: "sentinel-arc-mcp".to_string(),
-            server_version: "1.0.0-rc.1".to_string(), // Keep in sync with Cargo.toml
+            server_version: "1.0.0".to_string(), // Keep in sync with Cargo.toml
             default_timeout_seconds: 60,
         }
     }

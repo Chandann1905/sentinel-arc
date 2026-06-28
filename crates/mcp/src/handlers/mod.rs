@@ -34,7 +34,7 @@ pub async fn handle_request(
                     },
                     "serverInfo": {
                         "name": "sentinel-arc-mcp",
-                        "version": "1.0.0-rc.1"
+                        "version": "1.0.0"
                     }
                 });
                 Some(JsonRpcResponse::success(request.id?, result))

@@ -19,7 +19,7 @@ sentinel-arc-scanner.workspace = true
 sentinel-arc-context = { workspace = true }
 sentinel-arc-validation = { workspace = true }
 sentinel-arc-timeline = { workspace = true }
-sentinel-arc-mcp = { path = "../mcp", version = "1.0.0-rc.1" }
+sentinel-arc-mcp = { path = "../mcp", version = "1.0.0" }
 
 tokio.workspace = true
 serde.workspace = true
