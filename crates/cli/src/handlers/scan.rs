@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use console::{style, Emoji};
+use console::{Emoji, style};
 use indicatif::{ProgressBar, ProgressStyle};
 use sentinel_arc_knowledge::database::Database;
 use sentinel_arc_knowledge::engine::knowledge_engine::KnowledgeEngine;

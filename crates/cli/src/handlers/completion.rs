@@ -1,6 +1,6 @@
 use crate::cli::Cli;
 use clap::CommandFactory;
-use clap_complete::{generate, Shell};
+use clap_complete::{Shell, generate};
 use std::io;
 
 pub fn handle(shell: Shell) {

@@ -1,5 +1,5 @@
 use anyhow::Result;
-use console::{style, Emoji};
+use console::{Emoji, style};
 use sentinel_arc_knowledge::database::Database;
 use sentinel_arc_knowledge::engine::knowledge_engine::KnowledgeEngine;
 use std::fs;

@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use console::{style, Emoji};
+use console::{Emoji, style};
 use sentinel_arc_knowledge::database::Database;
 use sentinel_arc_knowledge::engine::knowledge_engine::KnowledgeEngine;
 use sentinel_arc_validation::engine::ValidationEngine;
@@ -21,7 +21,9 @@ pub async fn handle() -> Result<i32> {
 
     let proj = sentinel_arc_graph::engine::GraphEngine::build_projection(&knowledge).await?;
     let scanner = sentinel_arc_scanner::engine::ScannerEngine::new();
-    let report = validation.run_full_validation(&knowledge, &proj, &scanner).await?;
+    let report = validation
+        .run_full_validation(&knowledge, &proj, &scanner)
+        .await?;
 
     if report.issues.is_empty() {
         println!(

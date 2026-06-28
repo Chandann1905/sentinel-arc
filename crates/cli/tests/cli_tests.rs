@@ -28,7 +28,9 @@ fn test_cli_init() {
         .arg("init")
         .assert()
         .success()
-        .stdout(predicate::str::contains("Workspace successfully initialized!"));
+        .stdout(predicate::str::contains(
+            "Workspace successfully initialized!",
+        ));
 
     assert!(dir.path().join(".sentinel").join("knowledge.db").exists());
 }
@@ -51,7 +53,11 @@ fn test_cli_doctor_initialized() {
 
     // Init first
     let mut cmd_init = Command::cargo_bin("sentinel-cli").unwrap();
-    cmd_init.current_dir(dir.path()).arg("init").assert().success();
+    cmd_init
+        .current_dir(dir.path())
+        .arg("init")
+        .assert()
+        .success();
 
     // Doctor
     let mut cmd_doctor = Command::cargo_bin("sentinel-cli").unwrap();

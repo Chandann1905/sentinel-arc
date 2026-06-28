@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use console::{style, Emoji};
+use console::{Emoji, style};
 use indicatif::{ProgressBar, ProgressStyle};
 use sentinel_arc_knowledge::database::Database;
 use sentinel_arc_knowledge::engine::knowledge_engine::KnowledgeEngine;
@@ -33,9 +33,7 @@ pub async fn handle() -> Result<()> {
     println!(
         "{} {}",
         CHECK,
-        style("Search Index Rebuilt Successfully!")
-            .green()
-            .bold()
+        style("Search Index Rebuilt Successfully!").green().bold()
     );
     println!("  Elapsed Time: {:.2?}", start_time.elapsed());
 

@@ -17,8 +17,13 @@ pub async fn handle() -> Result<()> {
     let rules_count = knowledge.list_rules().await?.len();
 
     let mut events_query = sentinel_arc_core::domain::search::SearchQuery::new("");
-    events_query.entity_kinds = Some(vec![sentinel_arc_core::domain::search::SearchEntityKind::Event]);
-    let events_count = knowledge.search_advanced(&events_query).map(|r| r.total_count).unwrap_or(0);
+    events_query.entity_kinds = Some(vec![
+        sentinel_arc_core::domain::search::SearchEntityKind::Event,
+    ]);
+    let events_count = knowledge
+        .search_advanced(&events_query)
+        .map(|r| r.total_count)
+        .unwrap_or(0);
 
     let db_size = fs::metadata(db_path).map(|m| m.len()).unwrap_or(0);
 
@@ -37,7 +42,10 @@ pub async fn handle() -> Result<()> {
     println!("  Total Relationships: {}", style(rels_count).yellow());
     println!("  Total Events:        {}", style(events_count).yellow());
     println!("  Total Rules:         {}", style(rules_count).yellow());
-    println!("  Database Size:       {}", style(format_size(db_size)).green());
+    println!(
+        "  Database Size:       {}",
+        style(format_size(db_size)).green()
+    );
     println!(
         "  Search Index Size:   {}",
         style(format_size(search_size)).green()

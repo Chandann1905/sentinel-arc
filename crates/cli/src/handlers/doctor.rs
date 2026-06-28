@@ -1,5 +1,5 @@
 use anyhow::Result;
-use console::{style, Emoji};
+use console::{Emoji, style};
 use std::path::Path;
 use std::process::Command;
 

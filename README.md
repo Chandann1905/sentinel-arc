@@ -18,7 +18,7 @@ Sentinel Arc provides an ACID-compliant memory graph. By strictly separating pur
 We've designed Sentinel Arc to be frictionless to build and test.
 
 ### 1. Install Prerequisites
-You will need **Rust (1.70.0+)** and **Cargo**.
+You will need **Rust (1.85+)** and **Cargo**.
 * **macOS / Linux / WSL**: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
 * **Windows**: Download `rustup-init.exe` from [rustup.rs](https://rustup.rs).
 
@@ -30,8 +30,46 @@ git clone https://github.com/Chandann1905/sentinel-arc.git
 cd sentinel-arc
 ```
 
-### 3. Bootstrap and Verify
-We provide a setup script that will check your toolchain, compile the project, and run the test suite in memory.
+### 3. Install the CLI
+```bash
+cargo install --path crates/cli
+```
+
+This installs the `sentinel-cli` binary on your `PATH`. After installation you can invoke it as `sentinel-cli`.
+
+### 4. Initialize a Workspace
+```bash
+sentinel-cli init
+```
+
+This creates the `.sentinel/` directory in the current folder, initializes the SQLite database, and creates the Tantivy search index.
+
+### 5. Scan Your Project
+```bash
+sentinel-cli scan .
+```
+
+The scanner walks the file tree, parses source files with Tree-sitter, and populates the knowledge graph with functions, structs, modules, and their relationships.
+
+### 6. Explore the Knowledge Graph
+```bash
+# Full-text search
+sentinel-cli search "my_function"
+
+# Visualize dependency tree for a node
+sentinel-cli graph "my_function"
+
+# Check workspace health
+sentinel-cli doctor
+
+# Run architectural validation
+sentinel-cli validate
+
+# Display workspace statistics
+sentinel-cli stats
+```
+
+### 7. Bootstrap and Verify (Alternative)
 
 **Windows (PowerShell):**
 ```powershell
@@ -47,26 +85,53 @@ We provide a setup script that will check your toolchain, compile the project, a
 
 ---
 
+## 💻 CLI Reference
+
+The `sentinel-cli` is the primary developer interface. See [docs/cli/README.md](docs/cli/README.md) for detailed usage.
+
+| Command                | Description                                               |
+|------------------------|-----------------------------------------------------------|
+| `sentinel-cli init`           | Initialize a new Sentinel Arc workspace                   |
+| `sentinel-cli doctor`         | Verify environment and workspace health                   |
+| `sentinel-cli scan [PATH]`    | Scan source code and populate the knowledge graph         |
+| `sentinel-cli search <QUERY>` | Full-text search across the knowledge graph               |
+| `sentinel-cli graph <QUERY>`  | Visualize dependency tree and impact graph for a node     |
+| `sentinel-cli context <INTENT>` | Generate an LLM context package for a given intent      |
+| `sentinel-cli validate`       | Run all integrity validators and drift detection          |
+| `sentinel-cli stats`          | Display workspace statistics                              |
+| `sentinel-cli rebuild-index`  | Rebuild the Tantivy search index from SQLite              |
+| `sentinel-cli version`        | Display version and build information                     |
+| `sentinel-cli completion <SHELL>` | Generate shell completion scripts (bash, zsh, fish, etc.) |
+
+---
+
 ## 🏗️ Architecture & Workspace Layout
 
 Sentinel Arc employs **Domain Driven Design (DDD)** and is structured as a Cargo workspace:
 
 * **`crates/core`** (`sentinel-arc-core`): Pure domain models (`Node`, `Relationship`, `Event`, `Rule`). Zero database dependencies.
 * **`crates/knowledge`** (`sentinel-arc-knowledge`): The operational `KnowledgeEngine` facade. Coordinates transactions across the SQLite `KnowledgeRepository`.
-* **`crates/search`** (`sentinel-arc-search`): Tantivy-backed full text index. (Merged into core engines)
 * **`crates/graph`** (`sentinel-arc-graph`): Petgraph-backed topology projection and impact analysis.
-* **`crates/scanner`** (`sentinel-arc-scanner`): Tree-sitter file system parser.
-* **`crates/context`** (`sentinel-arc-context`): LLM intent resolution and package generation.
+* **`crates/scanner`** (`sentinel-arc-scanner`): Tree-sitter file system parser for source code ingestion.
+* **`crates/context`** (`sentinel-arc-context`): LLM intent resolution and context package generation.
 * **`crates/validation`** (`sentinel-arc-validation`): Project health validation and drift detection.
+* **`crates/cli`** (`sentinel-cli`): Production developer CLI. Thin wrapper over public engine APIs.
 * **`examples/`**: Minimal runnable code demonstrating engine integrations.
 * **`docs/`**: Comprehensive developer guides and architectural decisions (ADRs).
 
 ```mermaid
 graph LR
-    A[Consumer App] -->|Calls| KE[Knowledge Engine Facade]
+    CLI[sentinel-cli] -->|Calls| KE[Knowledge Engine Facade]
+    A[Consumer App] -->|Calls| KE
     KE --> NE[Internal Engines: Node, Event, Rule, Relationship]
+    KE --> SE[Search Engine]
+    KE --> GE[Graph Engine]
+    KE --> SC[Scanner Engine]
+    KE --> CE[Context Engine]
+    KE --> VE[Validation Engine]
     NE -->|Transactions| KR[Knowledge Repository]
     KR --> DB[(SQLite Database)]
+    SE --> TI[(Tantivy Index)]
 ```
 
 ## 📚 Developer Guides
@@ -79,13 +144,7 @@ New to the project? Start here:
 - [Repository Layout](docs/development/repository-layout.md)
 - [Architecture Deep Dive](docs/development/architecture.md)
 - [Troubleshooting & FAQ](docs/development/troubleshooting.md)
-
-## 💻 CLI Roadmap
-
-A dedicated command-line interface (`sentinel-cli`) is planned for upcoming releases. Expected capabilities:
-- `cargo run init`: Bootstrap a new SQLite Arc database.
-- `cargo run doctor`: Validate integrity of historical events against the current graph state.
-- `cargo run validate`: Run the rule engine against the active dataset.
+- [CLI Reference](docs/cli/README.md)
 
 ## 🤝 Contributing
 

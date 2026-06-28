@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use comfy_table::{presets::UTF8_FULL, Cell, Color, Table};
+use comfy_table::{Cell, Color, Table, presets::UTF8_FULL};
 use sentinel_arc_core::types::node_type::NodeType;
 use sentinel_arc_knowledge::database::Database;
 use sentinel_arc_knowledge::engine::knowledge_engine::KnowledgeEngine;

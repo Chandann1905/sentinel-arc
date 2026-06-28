@@ -14,7 +14,9 @@ pub async fn handle(intent: &str, json: bool) -> Result<()> {
     let context_engine = sentinel_arc_context::engine::ContextEngine::new();
     let proj = sentinel_arc_graph::engine::GraphEngine::build_projection(&knowledge).await?;
     let req = sentinel_arc_context::types::ContextRequest::new(intent);
-    let package = context_engine.generate_context(&knowledge, &proj, req).await?;
+    let package = context_engine
+        .generate_context(&knowledge, &proj, req)
+        .await?;
 
     if json {
         let json_output = serde_json::to_string_pretty(&package)?;
@@ -46,7 +48,10 @@ pub async fn handle(intent: &str, json: bool) -> Result<()> {
 
     println!("\n{}", style("Impact Report:").red().bold());
     println!("  Risk Score: {}", package.impact_report.risk_score);
-    println!("  Complexity Score: {}", package.impact_report.complexity_score);
+    println!(
+        "  Complexity Score: {}",
+        package.impact_report.complexity_score
+    );
 
     Ok(())
 }

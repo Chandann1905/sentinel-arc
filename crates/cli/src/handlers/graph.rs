@@ -9,7 +9,6 @@ use sentinel_arc_knowledge::engine::knowledge_engine::KnowledgeEngine;
 use std::collections::HashSet;
 use std::path::Path;
 
-
 static TREE_EDGE: &str = "├── ";
 static TREE_CORNER: &str = "└── ";
 static TREE_PIPE: &str = "│   ";
@@ -40,16 +39,41 @@ pub async fn handle(query: &str) -> Result<()> {
 
     let node = knowledge.get_node(&node_id).await?;
 
-    println!("\n{}", style(format!("{} ({:?})", node.title, node.node_type)).bold().cyan());
+    println!(
+        "\n{}",
+        style(format!("{} ({:?})", node.title, node.node_type))
+            .bold()
+            .cyan()
+    );
     println!("{}", style(node.id.to_string()).dim());
 
     println!("\n{}", style("Dependencies (Downstream)").yellow().bold());
     let mut visited = HashSet::new();
-    print_tree(&node_id, &knowledge, &proj, 0, String::new(), true, Direction::Outgoing, &mut visited).await?;
+    print_tree(
+        &node_id,
+        &knowledge,
+        &proj,
+        0,
+        String::new(),
+        true,
+        Direction::Outgoing,
+        &mut visited,
+    )
+    .await?;
 
     println!("\n{}", style("Impact (Upstream)").magenta().bold());
     let mut visited2 = HashSet::new();
-    print_tree(&node_id, &knowledge, &proj, 0, String::new(), true, Direction::Incoming, &mut visited2).await?;
+    print_tree(
+        &node_id,
+        &knowledge,
+        &proj,
+        0,
+        String::new(),
+        true,
+        Direction::Incoming,
+        &mut visited2,
+    )
+    .await?;
 
     Ok(())
 }
@@ -70,13 +94,24 @@ async fn print_tree(
 ) -> Result<()> {
     if depth > 0 {
         if !visited.insert(node_id.clone()) {
-            println!("{}{} {}", prefix, if is_last { TREE_CORNER } else { TREE_EDGE }, style("[Circular Reference]").red());
+            println!(
+                "{}{} {}",
+                prefix,
+                if is_last { TREE_CORNER } else { TREE_EDGE },
+                style("[Circular Reference]").red()
+            );
             return Ok(());
         }
 
         let node = knowledge.get_node(node_id).await?;
         let connector = if is_last { TREE_CORNER } else { TREE_EDGE };
-        println!("{}{} {} {}", prefix, connector, style(node.title).green(), style(format!("({:?})", node.node_type)).dim());
+        println!(
+            "{}{} {} {}",
+            prefix,
+            connector,
+            style(node.title).green(),
+            style(format!("({:?})", node.node_type)).dim()
+        );
     } else {
         visited.insert(node_id.clone());
     }
@@ -93,8 +128,18 @@ async fn print_tree(
         } else {
             format!("{}{}", prefix, if is_last { TREE_BLANK } else { TREE_PIPE })
         };
-        
-        print_tree(child_id, knowledge, proj, depth + 1, new_prefix, is_last_child, direction, visited).await?;
+
+        print_tree(
+            child_id,
+            knowledge,
+            proj,
+            depth + 1,
+            new_prefix,
+            is_last_child,
+            direction,
+            visited,
+        )
+        .await?;
     }
 
     if depth > 0 {
