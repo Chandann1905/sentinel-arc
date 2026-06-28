@@ -36,7 +36,7 @@ tokio = { version = "1", features = ["full"] }
 thiserror = "2"
 
 # Full-text search
-tantivy = "0.22"
+tantivy = "0.26"
 
 # Internal crates
 sentinel-arc-core = { path = "crates/core" }
