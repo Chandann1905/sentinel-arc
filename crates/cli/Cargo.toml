@@ -31,7 +31,7 @@ clap_complete = "4.5"
 indicatif = "0.17"
 console = "0.15"
 dialoguer = "0.11"
-comfy-table = "7.1"
+comfy-table = "8.0"
 async-recursion = "1.1"
 petgraph.workspace = true
 
